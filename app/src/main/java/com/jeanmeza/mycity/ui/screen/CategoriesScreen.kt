@@ -29,15 +29,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jeanmeza.mycity.R
+import com.jeanmeza.mycity.data.Category
 import com.jeanmeza.mycity.ui.AppViewModel
 import com.jeanmeza.mycity.ui.theme.MyCityTheme
 
 @Composable
-fun CategoriesScreen(viewModel: AppViewModel = viewModel()) {
+fun CategoriesScreen(
+    onCategoryClick: (Category) -> Unit,
+    viewModel: AppViewModel = viewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
         uiState.categories.forEach {
             Card(
+                onClick = { onCategoryClick(it) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(dimensionResource(R.dimen.padding_small))
@@ -88,6 +93,6 @@ fun CategoryInfo(@StringRes categoryName: Int, modifier: Modifier = Modifier) {
 @Composable
 fun CategoriesScreenPreview() {
     MyCityTheme {
-        CategoriesScreen()
+        CategoriesScreen(onCategoryClick = {})
     }
 }

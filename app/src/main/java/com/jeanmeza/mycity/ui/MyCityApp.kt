@@ -13,9 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeanmeza.mycity.R
 import com.jeanmeza.mycity.ui.screen.CategoriesScreen
+import com.jeanmeza.mycity.ui.screen.RecommendationsScreen
 
 enum class AppScreens(@StringRes val title: Int) {
     Categories(title = R.string.categories),
@@ -30,7 +33,10 @@ enum class AppScreens(@StringRes val title: Int) {
 }
 
 @Composable
-fun MyCityApp(navController: NavHostController = rememberNavController()) {
+fun MyCityApp(
+    viewModel: AppViewModel = viewModel(),
+    navController: NavHostController = rememberNavController()
+) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = AppScreens.valueOf(
         backStackEntry?.destination?.route ?: AppScreens.Categories.name
@@ -44,6 +50,7 @@ fun MyCityApp(navController: NavHostController = rememberNavController()) {
             )
         }
     ) { innerPadding ->
+        val uiState by viewModel.uiState.collectAsState()
         NavHost(
             navController = navController,
             startDestination = AppScreens.Categories.name,
@@ -52,7 +59,15 @@ fun MyCityApp(navController: NavHostController = rememberNavController()) {
                 .padding(innerPadding)
         ) {
             composable(route = AppScreens.Categories.name) {
-                CategoriesScreen()
+                CategoriesScreen(
+                    onCategoryClick = {
+                        viewModel.loadRecommendations(it)
+                        navController.navigate(AppScreens.Recommendations.name)
+                    },
+                )
+            }
+            composable(route = AppScreens.Recommendations.name) {
+                RecommendationsScreen(uiState = uiState)
             }
         }
     }
