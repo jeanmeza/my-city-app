@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">My City</string>
     <string name="categories">Categories</string>
+    <string name="recommendations">Recommendations</string>
     <string name="coffee_shops">Coffee Shops</string>
     <string name="restaurants">Restaurants</string>
     <string name="kid_friendly_places">Kid-Friendly Places</string>

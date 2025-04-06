@@ -3,8 +3,6 @@ package com.jeanmeza.mycity.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
@@ -28,6 +26,7 @@ import com.jeanmeza.mycity.ui.screen.CategoriesScreen
 
 enum class AppScreens(@StringRes val title: Int) {
     Categories(title = R.string.categories),
+    Recommendations(title = R.string.recommendations)
 }
 
 @Composable
@@ -50,7 +49,6 @@ fun MyCityApp(navController: NavHostController = rememberNavController()) {
             startDestination = AppScreens.Categories.name,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
         ) {
             composable(route = AppScreens.Categories.name) {
