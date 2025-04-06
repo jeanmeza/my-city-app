@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,15 +31,11 @@ enum class AppScreens(@StringRes val title: Int) {
 }
 
 @Composable
-fun MyCityApp(
-    appViewModel: AppViewModel = viewModel(),
-    navController: NavHostController = rememberNavController(),
-) {
+fun MyCityApp(navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = AppScreens.valueOf(
         backStackEntry?.destination?.route ?: AppScreens.Categories.name
     )
-
     Scaffold(
         topBar = {
             MyCityAppBar(
