@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -36,10 +37,11 @@ import com.jeanmeza.mycity.ui.theme.MyCityTheme
 @Composable
 fun CategoriesScreen(
     onCategoryClick: (Category) -> Unit,
-    viewModel: AppViewModel = viewModel()
+    modifier: Modifier = Modifier,
+    viewModel: AppViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+    Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         uiState.categories.forEach {
             Card(
                 onClick = { onCategoryClick(it) },
@@ -93,6 +95,11 @@ fun CategoryInfo(@StringRes categoryName: Int, modifier: Modifier = Modifier) {
 @Composable
 fun CategoriesScreenPreview() {
     MyCityTheme {
-        CategoriesScreen(onCategoryClick = {})
+        CategoriesScreen(
+            onCategoryClick = {},
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(dimensionResource(R.dimen.padding_small)),
+        )
     }
 }

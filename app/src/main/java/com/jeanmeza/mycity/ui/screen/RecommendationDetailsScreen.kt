@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,20 +20,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jeanmeza.mycity.R
 import com.jeanmeza.mycity.data.Recommendation
 import com.jeanmeza.mycity.data.local.LocalRecommendationsProvider
+import com.jeanmeza.mycity.ui.AppUiState
 import com.jeanmeza.mycity.ui.theme.MyCityTheme
 
 @Composable
 fun RecommendationDetailsScreen(
-    recommendation: Recommendation,
+    uiState: AppUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.padding(dimensionResource(R.dimen.padding_medium)),
-        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        RecommendationImage(recommendation = recommendation)
-        RecommendationDetails(details = recommendation.details)
+        RecommendationImage(recommendation = uiState.selectedRecommendation!!)
+        RecommendationDetails(details = uiState.selectedRecommendation.details)
     }
 }
 
@@ -67,12 +67,12 @@ fun RecommendationDetails(
     )
 }
 
-@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun RecommendationDetailsScreenPreview() {
     MyCityTheme {
         RecommendationDetailsScreen(
-            recommendation = LocalRecommendationsProvider.getAllRecommendations()[0]
+            uiState = AppUiState(selectedRecommendation = LocalRecommendationsProvider.getAllRecommendations()[0])
         )
     }
 }
